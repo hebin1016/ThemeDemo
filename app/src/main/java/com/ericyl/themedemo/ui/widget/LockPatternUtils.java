@@ -20,7 +20,7 @@ import android.util.Log;
 
 import com.ericyl.themedemo.BuildConfig;
 import com.ericyl.themedemo.collect.Lists;
-import com.ericyl.themedemo.utils.Randoms;
+import com.ericyl.themedemo.util.Randoms;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

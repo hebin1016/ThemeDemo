@@ -43,12 +43,12 @@ import com.ericyl.themedemo.ui.widget.LockPatternUtils;
 import com.ericyl.themedemo.ui.widget.LockPatternView;
 import com.ericyl.themedemo.ui.widget.LockPatternView.Cell;
 import com.ericyl.themedemo.ui.widget.LockPatternView.DisplayMode;
-import com.ericyl.themedemo.utils.IEncrypter;
-import com.ericyl.themedemo.utils.InvalidEncrypterException;
-import com.ericyl.themedemo.utils.LoadingView;
-import com.ericyl.themedemo.utils.Settings.Display;
-import com.ericyl.themedemo.utils.Settings.Security;
-import com.ericyl.themedemo.utils.UI;
+import com.ericyl.themedemo.util.IEncrypter;
+import com.ericyl.themedemo.util.InvalidEncrypterException;
+import com.ericyl.themedemo.util.LoadingView;
+import com.ericyl.themedemo.util.Settings.Display;
+import com.ericyl.themedemo.util.Settings.Security;
+import com.ericyl.themedemo.util.UI;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -57,12 +57,12 @@ import java.util.List;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 import static com.ericyl.themedemo.BuildConfig.DEBUG;
-import static com.ericyl.themedemo.utils.Settings.Display.METADATA_CAPTCHA_WIRED_DOTS;
-import static com.ericyl.themedemo.utils.Settings.Display.METADATA_MAX_RETRIES;
-import static com.ericyl.themedemo.utils.Settings.Display.METADATA_MIN_WIRED_DOTS;
-import static com.ericyl.themedemo.utils.Settings.Display.METADATA_STEALTH_MODE;
-import static com.ericyl.themedemo.utils.Settings.Security.METADATA_AUTO_SAVE_PATTERN;
-import static com.ericyl.themedemo.utils.Settings.Security.METADATA_ENCRYPTER_CLASS;
+import static com.ericyl.themedemo.util.Settings.Display.METADATA_CAPTCHA_WIRED_DOTS;
+import static com.ericyl.themedemo.util.Settings.Display.METADATA_MAX_RETRIES;
+import static com.ericyl.themedemo.util.Settings.Display.METADATA_MIN_WIRED_DOTS;
+import static com.ericyl.themedemo.util.Settings.Display.METADATA_STEALTH_MODE;
+import static com.ericyl.themedemo.util.Settings.Security.METADATA_AUTO_SAVE_PATTERN;
+import static com.ericyl.themedemo.util.Settings.Security.METADATA_ENCRYPTER_CLASS;
 
 /**
  * Main activity for this library.
@@ -102,8 +102,8 @@ public class LockPatternActivity extends ActionBarActivity {
 
     /**
      * Use this action to create new pattern. You can provide an
-     * {@link com.ericyl.themedemo.utils.IEncrypter} with
-     * {@link com.ericyl.themedemo.utils.Settings.Security#setEncrypterClass(android.content.Context, Class)} to
+     * {@link com.ericyl.themedemo.util.IEncrypter} with
+     * {@link com.ericyl.themedemo.util.Settings.Security#setEncrypterClass(android.content.Context, Class)} to
      * improve security.
      * <p/>
      * If the user created a pattern, {@link android.app.Activity#RESULT_OK} returns with
@@ -188,7 +188,7 @@ public class LockPatternActivity extends ActionBarActivity {
      * compared with {@link #EXTRA_PATTERN}.
      * <p/>
      * If you enabled feature auto-save pattern before (with
-     * {@link com.ericyl.themedemo.utils.Settings.Security#setAutoSavePattern(android.content.Context, boolean)} ),
+     * {@link com.ericyl.themedemo.util.Settings.Security#setAutoSavePattern(android.content.Context, boolean)} ),
      * then you don't need {@link #EXTRA_PATTERN} at this time. But if you use
      * this extra, its priority is higher than the one stored in shared
      * preferences.
@@ -260,7 +260,7 @@ public class LockPatternActivity extends ActionBarActivity {
      * <p/>
      * The default length of the auto-generated pattern is {@code 4}. You can
      * change it with
-     * {@link com.ericyl.themedemo.utils.Settings.Display#setCaptchaWiredDots(android.content.Context, int)}.
+     * {@link com.ericyl.themedemo.util.Settings.Display#setCaptchaWiredDots(android.content.Context, int)}.
      *
      * @since v2.7 beta
      */
@@ -543,7 +543,7 @@ public class LockPatternActivity extends ActionBarActivity {
     }// onDestroy()
 
     /**
-     * Loads settings, either from manifest or {@link com.ericyl.themedemo.utils.Settings}.
+     * Loads settings, either from manifest or {@link com.ericyl.themedemo.util.Settings}.
      */
     private void loadSettings() {
         Bundle metaData = null;

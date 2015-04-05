@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ericyl.themedemo.R;
-import com.ericyl.themedemo.utils.Settings;
+import com.ericyl.themedemo.util.Settings;
 
 public class SetLockActivity extends ActionBarActivity {
 

@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package com.ericyl.themedemo.utils;
+package com.ericyl.themedemo.util;
 
 import android.content.Context;
 

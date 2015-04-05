@@ -41,8 +41,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
 import com.ericyl.themedemo.R;
-import com.ericyl.themedemo.utils.FloatAnimator;
-import com.ericyl.themedemo.utils.ResourceUtils;
+import com.ericyl.themedemo.util.FloatAnimator;
+import com.ericyl.themedemo.util.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;

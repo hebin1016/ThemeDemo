@@ -14,11 +14,11 @@
  *   limitations under the License.
  */
 
-package com.ericyl.themedemo.utils;
+package com.ericyl.themedemo.util;
 
 /**
  * Used to throw exception if given class is not implemented from
- * {@link com.ericyl.themedemo.utils.IEncrypter}.
+ * {@link com.ericyl.themedemo.util.IEncrypter}.
  * 
  * @author Hai Bison
  * @since v2 beta
