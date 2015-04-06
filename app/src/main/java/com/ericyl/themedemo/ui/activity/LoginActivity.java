@@ -32,7 +32,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         init();
 
     }
@@ -119,6 +118,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_submit:
+                Intent intent = new Intent();
+                intent.setClass(this, SettingActivity.class);
+                startActivity(intent);
+                break;
 
+        }
     }
 }

@@ -11,6 +11,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
 
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="colorAccent">@color/dark_blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
         <item name="colorPrimary">@color/blue</item>
