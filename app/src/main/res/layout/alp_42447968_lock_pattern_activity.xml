@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
+            android:layout_margin="8dp"
             android:visibility="gone">
 
             <!-- A separator view -->
@@ -70,28 +71,26 @@
                 android:layout_height="@dimen/alp_42447968_separator_size" />
 
             <LinearLayout
-                style="?attr/alp_42447968_button_bar_style"
                 android:layout_width="match_parent"
+                android:padding="4dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/alp_42447968_button_cancel"
-                    style="?attr/alp_42447968_button_bar_button_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/btn_bg_lock_pattern"
                     android:textColor="@drawable/btn_txt_lock_pattern"
                     android:text="@android:string/cancel"
                     android:visibility="gone" />
 
                 <Button
                     android:id="@+id/alp_42447968_button_confirm"
-                    style="?attr/alp_42447968_button_bar_button_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/btn_bg_lock_pattern"
                     android:textColor="@drawable/btn_txt_lock_pattern"
                     android:layout_weight="1"
                     android:enabled="false"
