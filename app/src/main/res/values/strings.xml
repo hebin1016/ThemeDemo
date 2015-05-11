@@ -25,5 +25,6 @@
     <string name="submit">Submit</string>
     <string name="waiting_login">正在登陆,请稍等...</string>
     <string name="version_name">VersionCode: %1$d</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
 </resources>

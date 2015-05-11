@@ -33,7 +33,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-
     }
 
     private void init() {
@@ -50,7 +49,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
+        //actionBar = getSupportActionBar();
     }
 
     private void initData() {

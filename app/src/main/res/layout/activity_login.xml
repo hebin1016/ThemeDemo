@@ -19,7 +19,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <TextView
@@ -32,6 +32,7 @@
         <EditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
+            android:paddingLeft="8dp"
             android:layout_height="match_parent" />
 
     </LinearLayout>
@@ -56,6 +57,7 @@
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
+            android:paddingLeft="8dp"
             android:layout_height="match_parent" />
 
     </LinearLayout>
@@ -74,20 +76,48 @@
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@id/cb_remeber_username"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btn_login"
         android:text="@string/submit" />
+
+    <RelativeLayout
+        android:id="@+id/layout_other_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_submit"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/btn_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="注册用户"/>
+
+        <TextView
+            android:id="@+id/btn_forget_password"
+            android:layout_width="wrap_content"
+            android:padding="8dp"
+            android:layout_height="wrap_content"
+            android:text="忘记密码？"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_waiting_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_submit"
-        android:layout_marginTop="8dp"
+        android:layout_below="@id/layout_other_btn"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -115,5 +145,10 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/version_name" />
+    <AbsoluteLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        </AbsoluteLayout>
 
 </RelativeLayout>

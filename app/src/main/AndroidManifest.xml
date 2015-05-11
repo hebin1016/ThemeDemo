@@ -29,7 +29,6 @@
             android:name=".ui.activity.LockPatternActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:screenOrientation="user" />
-
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="@string/title_activity_setting" >
@@ -37,6 +36,10 @@
         <activity
             android:name=".ui.activity.SetLockActivity"
             android:label="@string/title_activity_set_lock" >
+        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity2Activity"
+            android:label="@string/title_activity_main_activity2" >
         </activity>
     </application>
 
