@@ -3,13 +3,14 @@ package com.ericyl.themedemo.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ericyl.themedemo.R;
 import com.ericyl.themedemo.util.Settings;
 
-public class SetLockActivity extends ActionBarActivity {
+public class SetLockActivity extends AppCompatActivity {
 
     private static final int REQ_CREATE_PATTERN = 1;
 

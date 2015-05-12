@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -93,7 +94,7 @@ import static com.ericyl.themedemo.util.Settings.Security.METADATA_ENCRYPTER_CLA
  * @author Hai Bison
  * @since v1.0
  */
-public class LockPatternActivity extends ActionBarActivity {
+public class LockPatternActivity extends AppCompatActivity {
 
     private ActionBar mActionBar;
     private Toolbar mToolbar;
