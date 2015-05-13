@@ -76,12 +76,13 @@
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/cb_remeber_username"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:textColor="@color/white"
         android:background="@drawable/btn_login"
         android:text="@string/submit" />
 
@@ -145,10 +146,5 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/version_name" />
-    <AbsoluteLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        </AbsoluteLayout>
 
 </RelativeLayout>
