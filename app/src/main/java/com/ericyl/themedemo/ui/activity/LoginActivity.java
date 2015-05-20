@@ -18,6 +18,7 @@ import com.ericyl.themedemo.model.User;
 import com.ericyl.themedemo.util.Settings;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -35,6 +36,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox cbRemeberUsername;
     private Button btnSubmit;
     private View layoutWaitingLogin;
+
+    private boolean isLogin = true;
+    private HttpHandler loginHandler;
 
     private static final int REQUEST_ENTER_PATTERN = 1;
     private static final int REQUEST_FORGET_PATTERN = 2;
@@ -55,6 +59,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = (EditText) findViewById(R.id.et_password);
         cbRemeberUsername = (CheckBox) findViewById(R.id.cb_remeber_username);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
+        if(isLogin)
+            btnSubmit.setText(R.string.login);
+        else
+            btnSubmit.setText(R.string.cancel);
         btnSubmit.setOnClickListener(this);
         layoutWaitingLogin = findViewById(R.id.layout_waiting_login);
         layoutWaitingLogin.setVisibility(View.GONE);
@@ -133,19 +141,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit:
-                boolean flag = true;
-                String username = etUserName.getText().toString();
-                String password = etPassword.getText().toString();
-                if(username == null || "".equals(username)) {
-                    etUserName.setError(getString(R.string.username_is_required));
-                    flag = false;
+                if(isLogin) {
+                    boolean flag = true;
+                    String username = etUserName.getText().toString();
+                    String password = etPassword.getText().toString();
+                    if (username == null || "".equals(username)) {
+                        etUserName.setError(getString(R.string.username_is_required));
+                        flag = false;
+                    }
+                    if (password == null || "".equals(password)) {
+                        etPassword.setError(getString(R.string.password_is_required));
+                        flag = false;
+                    }
+                    if (flag)
+                        login(username, password);
+                }else{
+                    loginCancel();
                 }
-                if(password == null || "".equals(password)) {
-                    etPassword.setError(getString(R.string.password_is_required));
-                    flag = false;
-                }
-                if(flag)
-                    login(username, password);
                 break;
 
         }
@@ -157,8 +169,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         params.addBodyParameter("password", password);
 
         HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.POST,
-                getString(R.string.host)+"login",
+        loginHandler = http.send(HttpRequest.HttpMethod.POST,
+                getString(R.string.host) + "login",
                 params,
                 new RequestCallBack<String>() {
 
@@ -167,21 +179,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         etUserName.setEnabled(false);
                         etPassword.setEnabled(false);
                         layoutWaitingLogin.setVisibility(View.VISIBLE);
+                        isLogin = false;
+                        btnSubmit.setText(R.string.cancel);
                     }
 
                     @Override
-                    public void onLoading(long total, long current, boolean isUploading) {}
+                    public void onLoading(long total, long current, boolean isUploading) {
+                    }
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                        etUserName.setEnabled(true);
-                        etPassword.setEnabled(true);
-                        layoutWaitingLogin.setVisibility(View.GONE);
+                        loginCancel();
                         String result = responseInfo.result;
                         User user = null;
-                        if(!"".equals(result))
+                        if (!"".equals(result))
                             user = JSON.parseObject(result, User.class);
-                        if(user == null)
+                        if (user == null)
                             Toast.makeText(LoginActivity.this, R.string.username_or_password_incorrect, Toast.LENGTH_SHORT).show();
                         else
                             jumpMainActivity(user);
@@ -189,11 +202,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                        etUserName.setEnabled(true);
-                        etPassword.setEnabled(true);
-                        layoutWaitingLogin.setVisibility(View.GONE);
+                        loginCancel();
                         Toast.makeText(LoginActivity.this, error.getExceptionCode() + ":" + msg, Toast.LENGTH_SHORT).show();
                     }
+
                 });
     }
 
@@ -203,6 +215,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         intent.putExtra(User.KEY_NAME, user);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(loginHandler != null) {
+            loginCancel();
+        }
+    }
+
+    private void loginCancel(){
+        loginHandler.cancel();
+        etUserName.setEnabled(true);
+        etPassword.setEnabled(true);
+        layoutWaitingLogin.setVisibility(View.GONE);
+        isLogin = true;
+        btnSubmit.setText(R.string.login);
     }
 
 }

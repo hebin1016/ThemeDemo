@@ -23,6 +23,7 @@
     <string name="username_is_required">Username is required</string>
     <string name="password_is_required">Password is required</string>
     <string name="login">Sign in</string>
+    <string name="cancel">Cancel</string>
     <string name="waiting_login">Signing&#8230;</string>
     <string name="username_or_password_incorrect">Username or password is incorrect!</string>
 
