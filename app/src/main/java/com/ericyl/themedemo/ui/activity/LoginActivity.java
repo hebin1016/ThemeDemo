@@ -10,9 +10,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.ericyl.themedemo.R;
+import com.ericyl.themedemo.model.User;
 import com.ericyl.themedemo.util.Settings;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText etPassword;
     private CheckBox cbRemeberUsername;
     private Button btnSubmit;
+    private View layoutWaitingLogin;
 
     private static final int REQUEST_ENTER_PATTERN = 1;
     private static final int REQUEST_FORGET_PATTERN = 2;
@@ -44,6 +56,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         cbRemeberUsername = (CheckBox) findViewById(R.id.cb_remeber_username);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
+        layoutWaitingLogin = findViewById(R.id.layout_waiting_login);
+        layoutWaitingLogin.setVisibility(View.GONE);
     }
 
     private void initToolbar() {
@@ -119,11 +133,76 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit:
-                Intent intent = new Intent();
-                intent.setClass(this, SettingActivity.class);
-                startActivity(intent);
+                boolean flag = true;
+                String username = etUserName.getText().toString();
+                String password = etPassword.getText().toString();
+                if(username == null || "".equals(username)) {
+                    etUserName.setError(getString(R.string.username_is_required));
+                    flag = false;
+                }
+                if(password == null || "".equals(password)) {
+                    etPassword.setError(getString(R.string.password_is_required));
+                    flag = false;
+                }
+                if(flag)
+                    login(username, password);
                 break;
 
         }
     }
+
+    private void login(String username, String password){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("username", username);
+        params.addBodyParameter("password", password);
+
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.POST,
+                getString(R.string.host)+"login",
+                params,
+                new RequestCallBack<String>() {
+
+                    @Override
+                    public void onStart() {
+                        etUserName.setEnabled(false);
+                        etPassword.setEnabled(false);
+                        layoutWaitingLogin.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {}
+
+                    @Override
+                    public void onSuccess(ResponseInfo<String> responseInfo) {
+                        etUserName.setEnabled(true);
+                        etPassword.setEnabled(true);
+                        layoutWaitingLogin.setVisibility(View.GONE);
+                        String result = responseInfo.result;
+                        User user = null;
+                        if(!"".equals(result))
+                            user = JSON.parseObject(result, User.class);
+                        if(user == null)
+                            Toast.makeText(LoginActivity.this, R.string.username_or_password_incorrect, Toast.LENGTH_SHORT).show();
+                        else
+                            jumpMainActivity(user);
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        etUserName.setEnabled(true);
+                        etPassword.setEnabled(true);
+                        layoutWaitingLogin.setVisibility(View.GONE);
+                        Toast.makeText(LoginActivity.this, error.getExceptionCode() + ":" + msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void jumpMainActivity(User user){
+        Intent intent = new Intent();
+        intent.setClass(this, MainActivity.class);
+        intent.putExtra(User.KEY_NAME, user);
+        startActivity(intent);
+        finish();
+    }
+
 }
