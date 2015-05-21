@@ -1,20 +1,24 @@
 package com.ericyl.themedemo.ui.activity;
 
+import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.ericyl.themedemo.R;
 import com.ericyl.themedemo.model.User;
+import com.ericyl.themedemo.util.DialogUtils;
+import com.ericyl.themedemo.util.PhoneUtils;
 import com.ericyl.themedemo.util.Settings;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -28,14 +32,16 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ActionBar actionBar;
     private Toolbar toolbar;
 
     private EditText etUserName;
     private EditText etPassword;
     private CheckBox cbRemeberUsername;
     private Button btnSubmit;
+    private Button btnForgotPassword;
+    private Button btnSignUp;
     private View layoutWaitingLogin;
+    private Dialog networkDialog;
 
     private boolean isLogin = true;
     private HttpHandler loginHandler;
@@ -51,6 +57,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!PhoneUtils.isNetworkAvailable()){
+            if(networkDialog == null) {
+                networkDialog = DialogUtils.showDialogWithTwoBtn(this, getString(R.string.setting_network), getString(R.string.network_error), getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        Intent intent = new Intent(
+                                android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+            }else if(!networkDialog.isShowing()){
+                networkDialog.show();
+            }
+        }
+    }
+
     private void init() {
         initToolbar();
         initData();
@@ -64,6 +91,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else
             btnSubmit.setText(R.string.cancel);
         btnSubmit.setOnClickListener(this);
+        btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
+        btnForgotPassword.setOnClickListener(this);
+        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
+        btnSignUp.setOnClickListener(this);
         layoutWaitingLogin = findViewById(R.id.layout_waiting_login);
         layoutWaitingLogin.setVisibility(View.GONE);
     }
@@ -71,7 +102,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //actionBar = getSupportActionBar();
+        TextView tvTitle = (TextView) toolbar.findViewById(R.id.tv_title);
+        tvTitle.setText(R.string.app_name);
     }
 
     private void initData() {
@@ -139,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_submit:
                 if(isLogin) {
@@ -158,6 +191,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }else{
                     loginCancel();
                 }
+                break;
+            case R.id.btn_forgot_password:
+                break;
+            case R.id.btn_sign_up:
+                intent.setClass(this, SignUpActivity.class);
+                startActivity(intent);
                 break;
 
         }

@@ -23,9 +23,16 @@
     <string name="username_is_required">用户名是必填的</string>
     <string name="password_is_required">密码是必填的</string>
     <string name="login">登录</string>
-    <string name="cancel">取消</string>
     <string name="waiting_login">正在登陆,请稍等&#8230;</string>
     <string name="username_or_password_incorrect">用户名或密码错误!</string>
+    <string name="service_connection_error">无法连接到服务器网络,请稍后再试!</string>
+    <string name="an_unknown_error_occurred">发生未知错误，请重新打开应用或联系系统管理员。</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="setting_network">设置网络</string>
+    <string name="network_error">网络未连接,是否跳转到网络设置界面?</string>
+    <string name="forgot_password">忘记密码?</string>
+    <string name="sign_up">注册新用户</string>
 
     <string name="alp_42447968_cmd_confirm">确认</string>
     <string name="alp_42447968_cmd_continue">继续</string>

@@ -23,9 +23,16 @@
     <string name="username_is_required">Username is required</string>
     <string name="password_is_required">Password is required</string>
     <string name="login">Sign in</string>
-    <string name="cancel">Cancel</string>
     <string name="waiting_login">Signing&#8230;</string>
     <string name="username_or_password_incorrect">Username or password is incorrect!</string>
+    <string name="service_connection_error">Could not connect to the server network, Please try again later!</string>
+    <string name="an_unknown_error_occurred">An unknown error occurred.</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="setting_network">Setting network</string>
+    <string name="network_error">Network disconnected! Go to network settings?</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up">Sign up</string>
 
     <string name="alp_42447968_cmd_confirm">Confirm</string>
     <string name="alp_42447968_cmd_continue">Continue</string>

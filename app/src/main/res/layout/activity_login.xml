@@ -7,7 +7,7 @@
     tools:context="com.ericyl.themedemo.ui.activity.LoginActivity">
 
     <include
-        layout="@layout/layout_toolbar"
+        layout="@layout/layout_toolbar_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -84,7 +84,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:textColor="@color/white"
         android:text="@string/login" />
 
@@ -96,22 +95,25 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <TextView
+        <Button
+            android:id="@+id/btn_forgot_password"
+            android:layout_width="wrap_content"
+            android:background="@color/transparent"
+            android:textColor="@drawable/btn_txt_lock_pattern"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/forgot_password" />
+
+        <Button
             android:id="@+id/btn_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="注册用户"/>
-
-        <TextView
-            android:id="@+id/btn_forget_password"
-            android:layout_width="wrap_content"
-            android:padding="8dp"
-            android:layout_height="wrap_content"
-            android:text="忘记密码？"
-            android:layout_alignParentRight="true" />
+            android:background="@color/transparent"
+            android:textColor="@drawable/btn_txt_lock_pattern"
+            android:layout_alignParentRight="true"
+            android:text="@string/sign_up"/>
 
     </RelativeLayout>
 
