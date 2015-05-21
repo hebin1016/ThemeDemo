@@ -19,12 +19,12 @@ public class MainActivity extends AppCompatActivity {
 
     private int oldPosition;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     private View layoutContent;
-    private ActionBar mActionBar;
-    private Toolbar mToolbar;
+    private ActionBar actionBar;
+    private Toolbar toolbar;
     private View contennt;
 
     private View layoutDrawerMenu;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         initToolBar();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
 
         layoutDrawerMenu = findViewById(R.id.layout_drawer_menu);
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.content, MainFragment.newInstance(null, null)).commit();
                 oldPosition = position;
-                mDrawerLayout.closeDrawer(layoutDrawerMenu);
+                drawerLayout.closeDrawer(layoutDrawerMenu);
             }
         });
         initDrawerLayout();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDrawerLayout() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open_drawer, R.string.close_drawer) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
             }
@@ -74,18 +74,18 @@ public class MainActivity extends AppCompatActivity {
                 supportInvalidateOptionsMenu();
             }
         };
-        mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        drawerToggle.syncState();
+        drawerLayout.setDrawerListener(drawerToggle);
 
     }
 
     private void initToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("AppThemeDemo");
-        setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setHomeButtonEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("AppThemeDemo");
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
 }

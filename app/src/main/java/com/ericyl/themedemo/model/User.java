@@ -10,6 +10,7 @@ public class User implements Serializable {
     private int index;
     private String username;
     private String password;
+    private String email;
 
     public int getIndex() {
         return index;

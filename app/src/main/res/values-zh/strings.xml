@@ -17,8 +17,8 @@
 
 <resources>
 
-    <string name="username">用户名:</string>
-    <string name="password">密码:</string>
+    <string name="username">请输入用户名</string>
+    <string name="password">请输入密码</string>
     <string name="remeber_username">记住用户名</string>
     <string name="username_is_required">用户名是必填的</string>
     <string name="password_is_required">密码是必填的</string>
@@ -33,6 +33,12 @@
     <string name="network_error">网络未连接,是否跳转到网络设置界面?</string>
     <string name="forgot_password">忘记密码?</string>
     <string name="sign_up">注册新用户</string>
+    <string name="find_your_account">请输入邮箱</string>
+    <string name="enter_the_verification_code">填入验证码</string>
+    <string name="resend_with_time">$1%d \'s 后重发</string>
+    <string name="verification_code">验证码</string>
+    <string name="resend">重发</string>
+    <string name="submit">提交</string>
 
     <string name="alp_42447968_cmd_confirm">确认</string>
     <string name="alp_42447968_cmd_continue">继续</string>

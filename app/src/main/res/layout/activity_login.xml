@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.ericyl.themedemo.ui.activity.LoginActivity">
+
 
     <include
         layout="@layout/layout_toolbar_login"
@@ -12,67 +13,41 @@
         android:layout_height="wrap_content" />
 
 
-    <LinearLayout
-        android:id="@+id/layout_username"
+    <EditText
+        android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_view_horizontal_margin"
+        android:hint="@string/username"
+        android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:minWidth="80dp"
-            android:text="@string/username" />
 
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="match_parent"
-            android:paddingLeft="8dp"
-            android:singleLine="true"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_password"
+    <EditText
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_username"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:layout_below="@id/et_username"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_view_vertical_margin"
+        android:paddingLeft="@dimen/activity_view_horizontal_margin"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:minWidth="80dp"
-            android:text="@string/password" />
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:inputType="textPassword"
-            android:paddingLeft="8dp"
-            android:singleLine="true"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
 
     <CheckBox
         android:id="@+id/cb_remeber_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_password"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_below="@id/et_password"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_view_vertical_margin"
         android:checked="true"
         android:text="@string/remeber_username" />
 
@@ -81,39 +56,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/cb_remeber_username"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/white"
-        android:text="@string/login" />
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_view_vertical_margin"
+        android:text="@string/login"
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:id="@+id/layout_other_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_submit"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        android:visibility="visible">
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_forgot_password"
             android:layout_width="wrap_content"
-            android:background="@color/transparent"
-            android:textColor="@drawable/btn_txt_lock_pattern"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/forgot_password" />
+            android:background="@color/transparent"
+            android:text="@string/forgot_password"
+            android:textColor="@drawable/btn_txt_lock_pattern" />
 
         <Button
             android:id="@+id/btn_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:textColor="@drawable/btn_txt_lock_pattern"
             android:layout_alignParentRight="true"
-            android:text="@string/sign_up"/>
+            android:background="@color/transparent"
+            android:text="@string/sign_up"
+            android:textColor="@drawable/btn_txt_lock_pattern" />
 
     </RelativeLayout>
 
@@ -136,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="@dimen/activity_view_horizontal_margin"
             android:text="@string/waiting_login" />
 
     </LinearLayout>
@@ -147,7 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/activity_view_vertical_margin"
         android:gravity="center"
         android:text="@string/version_name" />
 

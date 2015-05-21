@@ -193,6 +193,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.btn_forgot_password:
+                intent.setClass(this, ForgotPasswordActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_sign_up:
                 intent.setClass(this, SignUpActivity.class);

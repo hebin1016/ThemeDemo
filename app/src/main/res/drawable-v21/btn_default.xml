@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/dark_blue"
+    android:insetLeft="@dimen/abc_button_inset_horizontal_material"
+    android:insetTop="@dimen/abc_button_inset_vertical_material"
+    android:insetRight="@dimen/abc_button_inset_horizontal_material"
+    android:insetBottom="@dimen/abc_button_inset_vertical_material">
+    <item>
+        <selector>
+            <item android:drawable="@color/blue" android:state_enabled="true" android:state_focused="false" android:state_pressed="false" />
+            <item android:drawable="@color/blue" android:state_pressed="true" />
+            <item android:drawable="@color/gray" android:state_enabled="false" />
+            <item android:drawable="@color/blue" android:state_focused="true" />
+        </selector>
+    </item>
+</ripple>-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/dark_blue">
+
+    <item>
+        <selector>
+            <item android:drawable="@drawable/btn_default_shape" android:state_enabled="true" android:state_focused="false" android:state_pressed="false" />
+            <item android:drawable="@drawable/btn_default_shape" android:state_pressed="true" />
+            <item android:drawable="@drawable/btn_default_enable_false_shape" android:state_enabled="false" />
+            <item android:drawable="@drawable/btn_default_shape" android:state_focused="true" />
+        </selector>
+    </item>
+
+    <!--<item android:drawable="@drawable/btn_default_shape" />-->
+</ripple>
