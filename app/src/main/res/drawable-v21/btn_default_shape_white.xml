@@ -6,7 +6,7 @@
     android:insetTop="@dimen/abc_button_inset_vertical_material">
     <shape
         android:shape="rectangle"
-        android:tint="?attr/colorButtonNormal">
+        android:tint="@color/white">
         <corners android:radius="@dimen/abc_control_corner_material" />
         <solid android:color="@color/white" />
         <padding
