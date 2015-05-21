@@ -27,5 +27,6 @@
     <string name="version_name">VersionCode: %1$d</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
 
 </resources>
