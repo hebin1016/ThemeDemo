@@ -48,6 +48,9 @@
             android:name=".ui.activity.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password" >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="abcab4df000e1f83dbe15721b677668118cecd4c" />
     </application>
 
 </manifest>

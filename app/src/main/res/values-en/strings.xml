@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright 2012 Hai Bison
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +18,10 @@
 
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="input_username">Username</string>
+    <string name="input_password">Password</string>
+    <string name="input_password_again">Confirm your password</string>
+    <string name="email_address">Email Address</string>
     <string name="remeber_username">Remeber Username</string>
     <string name="username_is_required">Username is required</string>
     <string name="password_is_required">Password is required</string>
@@ -32,6 +35,7 @@
     <string name="setting_network">Setting network</string>
     <string name="network_error">Network disconnected! Go to network settings?</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up_new_account">Sign up</string>
     <string name="sign_up">Sign up</string>
     <string name="find_your_account">Find your account</string>
     <string name="enter_the_verification_code">Enter the verification code</string>

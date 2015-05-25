@@ -22,7 +22,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_view_horizontal_margin"
-        android:hint="@string/username"
+        android:hint="@string/input_username"
         android:singleLine="true" />
 
 
@@ -35,7 +35,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_view_vertical_margin"
         android:paddingLeft="@dimen/activity_view_horizontal_margin"
-        android:hint="@string/password"
+        android:hint="@string/input_username"
         android:inputType="textPassword"
         android:singleLine="true" />
 
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/transparent"
-            android:text="@string/sign_up"
+            android:text="@string/sign_up_new_account"
             android:textColor="@drawable/btn_txt_lock_pattern" />
 
     </RelativeLayout>
