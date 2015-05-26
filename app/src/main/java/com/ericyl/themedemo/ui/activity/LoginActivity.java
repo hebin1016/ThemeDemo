@@ -10,13 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.ericyl.themedemo.R;
 import com.ericyl.themedemo.model.User;
+import com.ericyl.themedemo.ui.widget.MyEditText;
 import com.ericyl.themedemo.util.DialogUtils;
 import com.ericyl.themedemo.util.PhoneUtils;
 import com.ericyl.themedemo.util.Settings;
@@ -34,8 +34,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Toolbar toolbar;
 
-    private EditText etUserName;
-    private EditText etPassword;
+    private MyEditText etUserName;
+    private MyEditText etPassword;
     private CheckBox cbRemeberUsername;
     private Button btnSubmit;
     private Button btnForgotPassword;
@@ -82,8 +82,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initToolbar();
         initData();
 
-        etUserName = (EditText) findViewById(R.id.et_username);
-        etPassword = (EditText) findViewById(R.id.et_password);
+        etUserName = (MyEditText) findViewById(R.id.et_username);
+        etPassword = (MyEditText) findViewById(R.id.et_password);
         cbRemeberUsername = (CheckBox) findViewById(R.id.cb_remeber_username);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
         if(isLogin)

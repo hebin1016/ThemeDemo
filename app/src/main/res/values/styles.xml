@@ -32,9 +32,12 @@
         <item name="android:background">@drawable/btn_default</item>
     </style>
 
-    <style name="buttonStyle12" parent="Widget.AppCompat.EditText">
-        <item name="android:background">@drawable/btn_default</item>
-    </style>
+    <declare-styleable name="MyEdittext">
+        <attr name="focusLeftBtnDrawable" format="reference" />
+        <attr name="unFocusLeftBtnDrawable" format="reference" />
+        <attr name="focusRightBtnDrawable" format="reference" />
+        <attr name="unFocusRightBtnDrawable" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="Alp.42447968.LockPatternView">
 
