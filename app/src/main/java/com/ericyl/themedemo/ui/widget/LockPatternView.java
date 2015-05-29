@@ -1297,7 +1297,7 @@ public class LockPatternView extends View {
         private final boolean mTactileFeedbackEnabled;
 
         /**
-         * Constructor called from {@link com.ericyl.themedemo.ui.widget.LockPatternView#onSaveInstanceState()}
+         * Constructor called from {@link LockPatternView#onSaveInstanceState()}
          */
         private SavedState(Parcelable superState, String serializedPattern,
                 int displayMode, boolean inputEnabled, boolean inStealthMode,

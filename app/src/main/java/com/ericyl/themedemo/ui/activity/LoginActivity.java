@@ -17,9 +17,12 @@ import com.alibaba.fastjson.JSON;
 import com.ericyl.themedemo.R;
 import com.ericyl.themedemo.model.User;
 import com.ericyl.themedemo.ui.widget.MyEditText;
+import com.ericyl.themedemo.util.AppProperties;
 import com.ericyl.themedemo.util.DialogUtils;
 import com.ericyl.themedemo.util.PhoneUtils;
 import com.ericyl.themedemo.util.Settings;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -27,7 +30,6 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -60,8 +62,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
-        if(!PhoneUtils.isNetworkAvailable()){
-            if(networkDialog == null) {
+        if (!PhoneUtils.isNetworkAvailable()) {
+            if (networkDialog == null) {
                 networkDialog = DialogUtils.showDialogWithTwoBtn(this, getString(R.string.setting_network), getString(R.string.network_error), getString(R.string.ok), new DialogInterface.OnClickListener() {
 
                     @Override
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                     }
                 });
-            }else if(!networkDialog.isShowing()){
+            } else if (!networkDialog.isShowing()) {
                 networkDialog.show();
             }
         }
@@ -86,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = (MyEditText) findViewById(R.id.et_password);
         cbRemeberUsername = (CheckBox) findViewById(R.id.cb_remeber_username);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
-        if(isLogin)
+        if (isLogin)
             btnSubmit.setText(R.string.login);
         else
             btnSubmit.setText(R.string.cancel);
@@ -174,23 +176,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_submit:
-                if(isLogin) {
-                    boolean flag = true;
-                    String username = etUserName.getText().toString();
-                    String password = etPassword.getText().toString();
-                    if (username == null || "".equals(username)) {
-                        etUserName.setError(getString(R.string.username_is_required));
-                        flag = false;
-                    }
-                    if (password == null || "".equals(password)) {
-                        etPassword.setError(getString(R.string.password_is_required));
-                        flag = false;
-                    }
-                    if (flag)
-                        login(username, password);
-                }else{
-                    loginCancel();
-                }
+//                if(isLogin) {
+//                    boolean flag = true;
+//                    String username = etUserName.getText().toString();
+//                    String password = etPassword.getText().toString();
+//                    if (username == null || "".equals(username)) {
+//                        etUserName.setError(getString(R.string.username_is_required));
+//                        flag = false;
+//                    }
+//                    if (password == null || "".equals(password)) {
+//                        etPassword.setError(getString(R.string.password_is_required));
+//                        flag = false;
+//                    }
+//                    if (flag)
+//                        login(username, password);
+//                }else{
+//                    loginCancel();
+//                }
+                if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(AppProperties.getContext()) == ConnectionResult.SUCCESS)
+                    intent.setClass(this, GoogleMapsActivity.class);
+                else
+                    intent.setClass(this, AutonaviMapsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_forgot_password:
                 intent.setClass(this, ForgotPasswordActivity.class);
@@ -204,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void login(String username, String password){
+    private void login(String username, String password) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("username", username);
         params.addBodyParameter("password", password);
@@ -244,13 +251,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onFailure(HttpException error, String msg) {
                         loginCancel();
-                        Toast.makeText(LoginActivity.this, error.getExceptionCode() + ":" + msg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
                     }
 
                 });
     }
 
-    private void jumpMainActivity(User user){
+    private void jumpMainActivity(User user) {
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         intent.putExtra(User.KEY_NAME, user);
@@ -261,12 +268,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStop() {
         super.onStop();
-        if(loginHandler != null) {
+        if (loginHandler != null) {
             loginCancel();
         }
     }
 
-    private void loginCancel(){
+    private void loginCancel() {
         loginHandler.cancel();
         etUserName.setEnabled(true);
         etPassword.setEnabled(true);

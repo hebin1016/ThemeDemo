@@ -34,14 +34,14 @@ public class ResourceUtils {
     }// ResourceUtils()
 
     /**
-     * Convenient method for {@link android.content.Context#getTheme()} and
-     * {@link android.content.res.Resources.Theme#resolveAttribute(int, android.util.TypedValue, boolean)}.
+     * Convenient method for {@link Context#getTheme()} and
+     * {@link android.content.res.Resources.Theme#resolveAttribute(int, TypedValue, boolean)}.
      *
      * @param context
      *            the context.
      * @param resId
      *            The resource identifier of the desired theme attribute.
-     * @return the resource ID that {@link android.util.TypedValue#resourceId} points to, or
+     * @return the resource ID that {@link TypedValue#resourceId} points to, or
      *         {@code 0} if not found.
      */
     public static int resolveAttribute(Context context, int resId) {
@@ -49,8 +49,8 @@ public class ResourceUtils {
     }// resolveAttribute()
 
     /**
-     * Convenient method for {@link android.content.Context#getTheme()} and
-     * {@link android.content.res.Resources.Theme#resolveAttribute(int, android.util.TypedValue, boolean)}.
+     * Convenient method for {@link Context#getTheme()} and
+     * {@link android.content.res.Resources.Theme#resolveAttribute(int, TypedValue, boolean)}.
      *
      * @param context
      *            the context.
@@ -58,7 +58,7 @@ public class ResourceUtils {
      *            The resource identifier of the desired theme attribute.
      * @param defaultValue
      *            the default value if cannot resolve {@code resId}.
-     * @return the resource ID that {@link android.util.TypedValue#resourceId} points to, or
+     * @return the resource ID that {@link TypedValue#resourceId} points to, or
      *         {@code defaultValue} if not found.
      */
     public static int resolveAttribute(Context context, int resId,

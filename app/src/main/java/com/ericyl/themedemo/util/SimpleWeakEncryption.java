@@ -226,7 +226,7 @@ public class SimpleWeakEncryption {
      *            the string.
      * @return the SHA-256 of given string.
      * @throws RuntimeException
-     *             which wraps {@link java.io.UnsupportedEncodingException} in case the
+     *             which wraps {@link UnsupportedEncodingException} in case the
      *             system does not support {@link #UTF8}.
      */
     public static byte[] sha256(String s) {
@@ -247,7 +247,7 @@ public class SimpleWeakEncryption {
      *            the byte array.
      * @return the SHA-256 of given data.
      * @throws RuntimeException
-     *             which wraps {@link java.security.NoSuchAlgorithmException} in case the
+     *             which wraps {@link NoSuchAlgorithmException} in case the
      *             system does not support calculating message digest of
      *             {@link #SHA256}.
      */

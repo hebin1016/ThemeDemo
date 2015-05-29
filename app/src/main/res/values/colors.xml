@@ -24,6 +24,7 @@
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="transparent">#00000000</color>
+    <color name="dark_gray">#c8c8c8</color>
     <color name="gray">#cecece</color>
     <color name="gray1">#efefef</color>
 

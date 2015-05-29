@@ -36,7 +36,7 @@ public interface IEncrypter {
      * @param context
      *            the context.
      * @param pattern
-     *            the pattern in the form of a list of {@link com.ericyl.themedemo.ui.widget.LockPatternView.Cell}.
+     *            the pattern in the form of a list of {@link Cell}.
      * @return the encrypted char array of the pattern.
      * @since v2.1 beta
      */

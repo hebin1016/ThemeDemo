@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "com.ericyl.themedemo"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -44,4 +44,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.4@aar') {
         transitive = true;
     }
+    compile 'com.google.android.gms:play-services:7.3.0'
 }

@@ -30,7 +30,7 @@ public class Lists {
      * <p/>
      * <p>
      * <b>Note:</b> if you only need an <i>immutable</i> empty List, use
-     * {@link java.util.Collections#emptyList} instead.
+     * {@link Collections#emptyList} instead.
      * 
      * @return a newly-created, initially-empty {@code ArrayList}
      */

@@ -111,7 +111,7 @@ public class LockPatternUtils {
      * @param pattern
      *            The pattern
      * @return The SHA-1 string of the pattern got from
-     *         {@link #patternToString(java.util.List)}
+     *         {@link #patternToString(List)}
      */
     public static String patternToSha1(List<LockPatternView.Cell> pattern) {
         try {

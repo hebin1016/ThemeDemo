@@ -28,7 +28,7 @@ import com.ericyl.themedemo.R;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 /**
- * An implementation of {@link android.os.AsyncTask}, used to show {@link android.app.ProgressDialog}
+ * An implementation of {@link AsyncTask}, used to show {@link ProgressDialog}
  * while doing some background tasks.
  * 
  * @author Hai Bison

@@ -68,8 +68,8 @@ import static com.ericyl.themedemo.util.Settings.Security.METADATA_ENCRYPTER_CLA
 /**
  * Main activity for this library.
  * <p>
- * You can deliver result to {@link android.app.PendingIntent}'s and/ or
- * {@link android.os.ResultReceiver} too. See {@link #EXTRA_PENDING_INTENT_OK},
+ * You can deliver result to {@link PendingIntent}'s and/ or
+ * {@link ResultReceiver} too. See {@link #EXTRA_PENDING_INTENT_OK},
  * {@link #EXTRA_PENDING_INTENT_CANCELLED} and {@link #EXTRA_RESULT_RECEIVER}
  * for more details.
  * </p>
@@ -103,8 +103,8 @@ public class LockPatternActivity extends AppCompatActivity {
 
     /**
      * Use this action to create new pattern. You can provide an
-     * {@link com.ericyl.themedemo.util.IEncrypter} with
-     * {@link com.ericyl.themedemo.util.Settings.Security#setEncrypterClass(android.content.Context, Class)} to
+     * {@link IEncrypter} with
+     * {@link Security#setEncrypterClass(Context, Class)} to
      * improve security.
      * <p/>
      * If the user created a pattern, {@link android.app.Activity#RESULT_OK} returns with
@@ -133,14 +133,14 @@ public class LockPatternActivity extends AppCompatActivity {
 
     /**
      * This method is a shortcut to call
-     * {@link #newIntentToCreatePattern(android.content.Context)} from a UI thread.
+     * {@link #newIntentToCreatePattern(Context)} from a UI thread.
      *
      * @param caller      must be an instance of {@link android.app.Activity}, or {@link android.app.Fragment}
      *                    or support library's {@code Fragment}. Other values will be
      *                    ignored.
      * @param context     the context.
      * @param requestCode request code for
-     *                    {@link android.app.Activity#startActivityForResult(android.content.Intent, int)} or
+     *                    {@link android.app.Activity#startActivityForResult(Intent, int)} or
      *                    counterpart methods of fragments.
      * @return {@code true} if the call has been made successfully,
      * {@code false} if any exception occurred.
@@ -189,7 +189,7 @@ public class LockPatternActivity extends AppCompatActivity {
      * compared with {@link #EXTRA_PATTERN}.
      * <p/>
      * If you enabled feature auto-save pattern before (with
-     * {@link com.ericyl.themedemo.util.Settings.Security#setAutoSavePattern(android.content.Context, boolean)} ),
+     * {@link Security#setAutoSavePattern(Context, boolean)} ),
      * then you don't need {@link #EXTRA_PATTERN} at this time. But if you use
      * this extra, its priority is higher than the one stored in shared
      * preferences.
@@ -235,14 +235,14 @@ public class LockPatternActivity extends AppCompatActivity {
 
     /**
      * This method is a shortcut to call
-     * {@link #newIntentToComparePattern(android.content.Context, char[])} from a UI thread.
+     * {@link #newIntentToComparePattern(Context, char[])} from a UI thread.
      *
      * @param caller      must be an instance of {@link android.app.Activity}, or {@link android.app.Fragment}
      *                    or support library's {@code Fragment}. Other values will be
      *                    ignored.
      * @param context     the context.
      * @param requestCode request code for
-     *                    {@link android.app.Activity#startActivityForResult(android.content.Intent, int)} or
+     *                    {@link android.app.Activity#startActivityForResult(Intent, int)} or
      *                    counterpart methods of fragments.
      * @param pattern     optional, see {@link #EXTRA_PATTERN}.
      * @return {@code true} if the call has been made successfully,
@@ -261,7 +261,7 @@ public class LockPatternActivity extends AppCompatActivity {
      * <p/>
      * The default length of the auto-generated pattern is {@code 4}. You can
      * change it with
-     * {@link com.ericyl.themedemo.util.Settings.Display#setCaptchaWiredDots(android.content.Context, int)}.
+     * {@link Display#setCaptchaWiredDots(Context, int)}.
      *
      * @since v2.7 beta
      */
@@ -283,14 +283,14 @@ public class LockPatternActivity extends AppCompatActivity {
 
     /**
      * This method is a shortcut to call
-     * {@link #newIntentToVerifyCaptcha(android.content.Context)} from a UI thread.
+     * {@link #newIntentToVerifyCaptcha(Context)} from a UI thread.
      *
      * @param caller      must be an instance of {@link android.app.Activity}, or {@link android.app.Fragment}
      *                    or support library's {@code Fragment}. Other values will be
      *                    ignored.
      * @param context     the context.
      * @param requestCode request code for
-     *                    {@link android.app.Activity#startActivityForResult(android.content.Intent, int)} or
+     *                    {@link android.app.Activity#startActivityForResult(Intent, int)} or
      *                    counterpart methods of fragments.
      * @return {@code true} if the call has been made successfully,
      * {@code false} if any exception occurred.
@@ -348,7 +348,7 @@ public class LockPatternActivity extends AppCompatActivity {
      * <li>If you use encrypter, it should be an encrypted array.</li>
      * <li>If you don't use encrypter, it should be the SHA-1 value of the
      * actual pattern. You can generate the value by
-     * {@link com.ericyl.themedemo.ui.widget.LockPatternUtils#patternToSha1(java.util.List)}.</li>
+     * {@link LockPatternUtils#patternToSha1(List)}.</li>
      * </ul>
      *
      * @since v2 beta
@@ -356,9 +356,9 @@ public class LockPatternActivity extends AppCompatActivity {
     public static final String EXTRA_PATTERN = CLASSNAME + ".pattern";
 
     /**
-     * You can provide an {@link android.os.ResultReceiver} with this key. The activity
+     * You can provide an {@link ResultReceiver} with this key. The activity
      * will notify your receiver the same result code and intent data as you
-     * will receive them in {@link #onActivityResult(int, int, android.content.Intent)}.
+     * will receive them in {@link #onActivityResult(int, int, Intent)}.
      *
      * @since v2.4 beta
      */
@@ -366,7 +366,7 @@ public class LockPatternActivity extends AppCompatActivity {
             + ".result_receiver";
 
     /**
-     * Put a {@link android.app.PendingIntent} into this key. It will be sent before
+     * Put a {@link PendingIntent} into this key. It will be sent before
      * {@link android.app.Activity#RESULT_OK} will be returning. If you were calling this
      * activity with {@link #ACTION_CREATE_PATTERN}, key {@link #EXTRA_PATTERN}
      * will be attached to the original intent which the pending intent holds.
@@ -374,38 +374,38 @@ public class LockPatternActivity extends AppCompatActivity {
      * <h1>Notes</h1>
      * <ul>
      * <li>If you're going to use an activity, you don't need
-     * {@link android.content.Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
-     * will call it inside {@link com.ericyl.themedemo.ui.activity.LockPatternActivity} .</li>
+     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
+     * will call it inside {@link LockPatternActivity} .</li>
      * </ul>
      */
     public static final String EXTRA_PENDING_INTENT_OK = CLASSNAME
             + ".pending_intent_ok";
 
     /**
-     * Put a {@link android.app.PendingIntent} into this key. It will be sent before
+     * Put a {@link PendingIntent} into this key. It will be sent before
      * {@link android.app.Activity#RESULT_CANCELED} will be returning.
      * <p/>
      * <h1>Notes</h1>
      * <ul>
      * <li>If you're going to use an activity, you don't need
-     * {@link android.content.Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
-     * will call it inside {@link com.ericyl.themedemo.ui.activity.LockPatternActivity} .</li>
+     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
+     * will call it inside {@link LockPatternActivity} .</li>
      * </ul>
      */
     public static final String EXTRA_PENDING_INTENT_CANCELLED = CLASSNAME
             + ".pending_intent_cancelled";
 
     /**
-     * You put a {@link android.app.PendingIntent} into this extra. The library will show a
+     * You put a {@link PendingIntent} into this extra. The library will show a
      * button <i>"Forgot pattern?"</i> and call your intent later when the user
      * taps it.
      * <p/>
      * <h1>Notes</h1>
      * <ul>
      * <li>If you use an activity, you don't need
-     * {@link android.content.Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
-     * will call it inside {@link com.ericyl.themedemo.ui.activity.LockPatternActivity} .</li>
-     * <li>{@link com.ericyl.themedemo.ui.activity.LockPatternActivity} will finish with
+     * {@link Intent#FLAG_ACTIVITY_NEW_TASK} for the intent, since the library
+     * will call it inside {@link LockPatternActivity} .</li>
+     * <li>{@link LockPatternActivity} will finish with
      * {@link #RESULT_FORGOT_PATTERN} <i><b>after</b> making a call</i> to start
      * your pending intent.</li>
      * <li>It is your responsibility to make sure the Intent is good. The

@@ -22,6 +22,7 @@
     <string name="input_password">Password</string>
     <string name="input_password_again">Confirm your password</string>
     <string name="email_address">Email Address</string>
+    <string name="input_email_address">Email Address</string>
     <string name="remeber_username">Remeber Username</string>
     <string name="username_is_required">Username is required</string>
     <string name="password_is_required">Password is required</string>
@@ -30,6 +31,8 @@
     <string name="username_or_password_incorrect">Username or password is incorrect!</string>
     <string name="service_connection_error">Could not connect to the server network, Please try again later!</string>
     <string name="an_unknown_error_occurred">An unknown error occurred.</string>
+    <string name="can_not_find_account">We couldn\'t find your account with that information.</string>
+    <string name="email_not_be_verified">The email address has not been verified</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="setting_network">Setting network</string>
@@ -43,6 +46,7 @@
     <string name="verification_code">Verification Code</string>
     <string name="resend">Resend</string>
     <string name="submit">Submit</string>
+    <string name="no_geocoder_available">Geocoder is unavailable</string>
 
     <string name="alp_42447968_cmd_confirm">Confirm</string>
     <string name="alp_42447968_cmd_continue">Continue</string>
@@ -66,5 +70,6 @@
         <item quantity="one">Connect at least %1$d dot.Try again…</item>
         <item quantity="other">Connect at least %1$d dots.Try again…</item>
     </plurals>
+    <string name="registration_statement">Continuing means you have read and agreed to our Terms of service.</string>
 
 </resources>

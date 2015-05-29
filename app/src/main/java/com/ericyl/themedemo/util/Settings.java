@@ -26,7 +26,7 @@ import com.ericyl.themedemo.R;
 
 
 /**
- * All settings for the library. They are stored in {@link android.content.SharedPreferences}.
+ * All settings for the library. They are stored in {@link SharedPreferences}.
  * <p/>
  * For some options, you can set them directly via tag {@code <meta-data>}
  * inside tag {@code <activity>} in AndroidManifest.xml. Refer to setter methods
@@ -63,11 +63,11 @@ public class Settings {
     }// genDatabaseFilename()
 
     /**
-     * Gets new {@link android.content.SharedPreferences}
+     * Gets new {@link SharedPreferences}
      *
      * @param context
      *            the context.
-     * @return {@link android.content.SharedPreferences}
+     * @return {@link SharedPreferences}
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static SharedPreferences p(Context context) {
@@ -86,7 +86,7 @@ public class Settings {
      * @param context
      *            the context.
      * @param pm
-     *            {@link android.preference.PreferenceManager}.
+     *            {@link PreferenceManager}.
      * @since v2.6 beta
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -107,28 +107,28 @@ public class Settings {
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setStealthMode(android.content.Context, boolean)
+         * @see #setStealthMode(Context, boolean)
          */
         public static final String METADATA_STEALTH_MODE = "stealthMode";
 
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setMinWiredDots(android.content.Context, int)
+         * @see #setMinWiredDots(Context, int)
          */
         public static final String METADATA_MIN_WIRED_DOTS = "minWiredDots";
 
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setMaxRetries(android.content.Context, int)
+         * @see #setMaxRetries(Context, int)
          */
         public static final String METADATA_MAX_RETRIES = "maxRetries";
 
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setCaptchaWiredDots(android.content.Context, int)
+         * @see #setCaptchaWiredDots(Context, int)
          */
         public static final String METADATA_CAPTCHA_WIRED_DOTS = "captchaWiredDots";
 
@@ -350,15 +350,15 @@ public class Settings {
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setEncrypterClass(android.content.Context, char[])
-         * @see #setEncrypterClass(android.content.Context, Class)
+         * @see #setEncrypterClass(Context, char[])
+         * @see #setEncrypterClass(Context, Class)
          */
         public static final String METADATA_ENCRYPTER_CLASS = "encrypterClass";
 
         /**
          * Name to use for tag {@code <meta-data>} in AndroidManifest.xml.
          *
-         * @see #setAutoSavePattern(android.content.Context, boolean)
+         * @see #setAutoSavePattern(Context, boolean)
          */
         public static final String METADATA_AUTO_SAVE_PATTERN = "autoSavePattern";
 

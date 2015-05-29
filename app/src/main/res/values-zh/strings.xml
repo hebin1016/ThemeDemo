@@ -23,6 +23,7 @@
     <string name="input_password">请输入密码</string>
     <string name="input_password_again">确认密码</string>
     <string name="email_address">邮箱地址</string>
+    <string name="input_email_address">请输入邮箱地址</string>
     <string name="remeber_username">记住用户名</string>
     <string name="username_is_required">用户名是必填的</string>
     <string name="password_is_required">密码是必填的</string>
@@ -31,6 +32,8 @@
     <string name="username_or_password_incorrect">用户名或密码错误!</string>
     <string name="service_connection_error">无法连接到服务器网络,请稍后再试!</string>
     <string name="an_unknown_error_occurred">发生未知错误，请重新打开应用或联系系统管理员。</string>
+    <string name="can_not_find_account">我们无法找到与该信息相关的帐户。</string>
+    <string name="email_not_be_verified">该邮箱尚未验证,无法使用该功能。</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="setting_network">设置网络</string>
@@ -44,6 +47,7 @@
     <string name="verification_code">验证码</string>
     <string name="resend">重发</string>
     <string name="submit">提交</string>
+    <string name="no_geocoder_available">地理编码器不可用</string>
 
     <string name="alp_42447968_cmd_confirm">确认</string>
     <string name="alp_42447968_cmd_continue">继续</string>
@@ -67,5 +71,7 @@
         <item quantity="one">至少需连接%1$d个点，请重试。</item>
         <item quantity="other">至少需连接%1$d个点，请重试。</item>
     </plurals>
+
+    <string name="registration_statement">点击“注册”按钮，即表示您已阅读并同意我们的服务条款。</string>
 
 </resources>
