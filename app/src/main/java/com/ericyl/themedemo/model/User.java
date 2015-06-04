@@ -7,16 +7,33 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     public static final String KEY_NAME = "User";
-    private int index;
+    private Integer index;
     private String username;
     private String password;
     private String email;
+    private Integer emailVerification;
 
-    public int getIndex() {
+    public User() {
+    }
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(int index, String username, String password, String email) {
+        this.index = index;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public Integer getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(Integer index) {
         this.index = index;
     }
 
@@ -36,6 +53,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getEmailVerification() {
+        return emailVerification;
+    }
+
+    public void setEmailVerification(Integer emailVerification) {
+        this.emailVerification = emailVerification;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,23 +76,32 @@ public class User implements Serializable {
 
         User user = (User) o;
 
+        if (!index.equals(user.index)) return false;
         if (!username.equals(user.username)) return false;
-        return password.equals(user.password);
+        if (!password.equals(user.password)) return false;
+        if (!email.equals(user.email)) return false;
+        return emailVerification.equals(user.emailVerification);
 
     }
 
     @Override
     public int hashCode() {
-        int result = username.hashCode();
+        int result = index.hashCode();
+        result = 31 * result + username.hashCode();
         result = 31 * result + password.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + emailVerification.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "index=" + index +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", emailVerification=" + emailVerification +
                 '}';
     }
 }

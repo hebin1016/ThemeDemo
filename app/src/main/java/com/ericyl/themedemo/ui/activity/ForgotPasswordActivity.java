@@ -1,6 +1,8 @@
 package com.ericyl.themedemo.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,8 +15,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ericyl.themedemo.R;
+import com.ericyl.themedemo.util.AppProperties;
 import com.ericyl.themedemo.util.CodeUtils;
+import com.ericyl.themedemo.util.HttpResultCode;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -22,9 +28,6 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
@@ -38,7 +41,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     private Button btnResend;
     private Button btnSubmit;
     private boolean flagSubmit = false;
-    private String code;
+    private String code = null;
+    private String index = null;
+
+    private TimeCount time;
 
     private HttpHandler verifyEmailHandler;
     private HttpHandler sendVerificationCodeHandler;
@@ -55,11 +61,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
         tvMessage = (TextView) findViewById(R.id.tv_message);
         etEmail = (EditText) findViewById(R.id.et_email);
-        etEmail.addTextChangedListener(new EmailTextWatcher());
+        etEmail.addTextChangedListener(new EditTextWatcher());
         layoutVerificationCode = findViewById(R.id.layout_verification_code);
         layoutVerificationCode.setVisibility(View.GONE);
         etVerificationCode = (EditText) findViewById(R.id.et_verification_code);
-        etVerificationCode.addTextChangedListener(new VerificationCodeTextWatcher());
+        etVerificationCode.addTextChangedListener(new EditTextWatcher());
         btnResend = (Button) findViewById(R.id.btn_resend);
         btnResend.setOnClickListener(this);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
@@ -92,10 +98,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_resend:
+                verifyEmail(etEmail.getText().toString());
                 break;
             case R.id.btn_submit:
                 if (flagSubmit) {
-
+                    verifyCode();
                 } else {
                     if (verifyEmail()) {
                         verifyEmail(etEmail.getText().toString());
@@ -107,11 +114,20 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void jumpChangePasswordActivity() {
-
+    private void verifyCode() {
+        if (code.equals(etVerificationCode.getText().toString())) {
+            Intent intent = new Intent();
+            intent.putExtra("ShowOldPassword", false);
+            intent.putExtra("Index", index);
+            intent.setClass(this, ChangePasswordActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            showToast(R.string.verify_code_is_error);
+        }
     }
 
-    class EmailTextWatcher implements TextWatcher {
+    class EditTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -131,27 +147,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                 btnSubmit.setEnabled(false);
             }
 
-        }
-    }
-
-    class VerificationCodeTextWatcher implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.toString().length() > 0)
-                btnSubmit.setEnabled(true);
-            else
-                btnSubmit.setEnabled(false);
         }
     }
 
@@ -179,22 +174,27 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                        int result = Integer.parseInt(responseInfo.result);
-                        if (result == 200) {
-                            etEmail.setEnabled(false);
-                            layoutVerificationCode.setVisibility(View.VISIBLE);
+                        String result = responseInfo.result;
+                        if ("".equals(result))
+                            return;
+                        JSONObject object = JSON.parseObject(result);
+                        int messageCode = object.getIntValue(HttpResultCode.MESSAGE_CODE);
+                        if (messageCode == HttpResultCode.SUCCESS) {
                             code = CodeUtils.getRandomCode(6);
+                            index = object.getString("userIndex");
                             sendVerificationCode(email, code);
-                        } else if (result == 501) {
-                            Toast.makeText(ForgotPasswordActivity.this, R.string.can_not_find_account, Toast.LENGTH_SHORT).show();
-                        } else if (result == 502) {
-                            Toast.makeText(ForgotPasswordActivity.this, R.string.email_not_be_verified, Toast.LENGTH_SHORT).show();
+                        } else if (messageCode == HttpResultCode.NO_ACCOUNT_ERROR) {
+                            showToast(R.string.can_not_find_account);
+                        } else if (messageCode == HttpResultCode.EMAIL_UNVERIFIED_ERROR) {
+                            showToast(R.string.email_not_be_verified);
                         }
+
+
                     }
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                        Toast.makeText(ForgotPasswordActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                        showToast(R.string.service_connection_error);
                     }
 
                 });
@@ -223,26 +223,65 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     public void onSuccess(ResponseInfo<String> responseInfo) {
                         String result = responseInfo.result;
                         System.out.println(result);
-                        if (!"".equals(result)){
-                            try {
-                                JSONObject object = new JSONObject(result);
-                                int code = object.getInt("messageCode");
-                                if(code != 200){
-                                    Toast.makeText(ForgotPasswordActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        if ("".equals(result))
+                            return;
+                        JSONObject object = JSON.parseObject(result);
+                        int messageCode = object.getIntValue(HttpResultCode.MESSAGE_CODE);
+                        if (messageCode != HttpResultCode.SUCCESS) {
+                            showToast(R.string.service_connection_error);
+                        } else {
+                            tvMessage.setText(R.string.input_verification_code);
+                            btnResend.setEnabled(false);
+                            time = new TimeCount(60000, 1000);
+                            time.start();
+                            etEmail.setEnabled(false);
+                            layoutVerificationCode.setVisibility(View.VISIBLE);
+                            flagSubmit = true;
+                            btnSubmit.setEnabled(false);
                         }
 
                     }
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                        Toast.makeText(ForgotPasswordActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                        showToast(R.string.service_connection_error);
                     }
 
                 });
     }
 
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+            btnResend.setText(R.string.resend);
+            btnResend.setEnabled(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            String text = String.format(AppProperties.getContext().getString(R.string.resend_with_time), millisUntilFinished / 1000 - 1);
+            btnResend.setText(text);
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showToast(int messageId) {
+        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (verifyEmailHandler != null)
+            verifyEmailHandler.cancel();
+        if (sendVerificationCodeHandler != null)
+            sendVerificationCodeHandler.cancel();
+    }
 }

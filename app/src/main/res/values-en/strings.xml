@@ -19,12 +19,14 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="input_username">Username</string>
+    <string name="input_old_password">Old Password</string>
     <string name="input_password">Password</string>
     <string name="input_password_again">Confirm your password</string>
     <string name="email_address">Email Address</string>
     <string name="input_email_address">Email Address</string>
     <string name="remeber_username">Remeber Username</string>
     <string name="username_is_required">Username is required</string>
+    <string name="email_is_required">Email is required</string>
     <string name="password_is_required">Password is required</string>
     <string name="login">Sign in</string>
     <string name="waiting_login">Signing&#8230;</string>
@@ -42,11 +44,21 @@
     <string name="sign_up">Sign up</string>
     <string name="find_your_account">Find your account</string>
     <string name="enter_the_verification_code">Enter the verification code</string>
-    <string name="resend_with_time">$1%d \'s Resend</string>
+    <string name="resend_with_time">%1$d \'s Resend</string>
     <string name="verification_code">Verification Code</string>
     <string name="resend">Resend</string>
     <string name="submit">Submit</string>
+    <string name="verify_code_is_error">code verification failed</string>
     <string name="no_geocoder_available">Geocoder is unavailable</string>
+    <string name="input_verification_code">Verification Code</string>
+    <string name="verify_password_is_error">password verification failed</string>
+    <string name="change_password_success">Password has been changed.</string>
+    <string name="change_password_failed">Password changed failed, Please try again later.</string>
+    <string name="waiting">Please waiting&#8230;</string>
+    <string name="warn">Warn</string>
+    <string name="please_verify_info">Please make sure the info what your enter is correct, and tap on \'Continue\' button.</string>
+    <string name="sign_up_success">Congratulations, Sign up success.</string>
+    <string name="sign_up_failed">Sorry, Sign up failed, Please try again later.</string>
 
     <string name="alp_42447968_cmd_confirm">Confirm</string>
     <string name="alp_42447968_cmd_continue">Continue</string>

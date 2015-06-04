@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ericyl.themedemo.R;
-import com.ericyl.themedemo.model.User;
 import com.ericyl.themedemo.util.AppProperties;
 import com.ericyl.themedemo.util.DialogUtils;
 import com.ericyl.themedemo.util.HttpResultCode;
@@ -26,42 +26,51 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
 
-    private EditText etUsername;
-    private EditText etEmail;
+    private boolean showOldPassword = true;
+    private String index;
+
+    private EditText etOldPassword;
     private EditText etPassword;
-    private Button btnSignUp;
+    private Button btnSubmit;
 
     private ProgressDialog progressDialog = null;
 
-    private HttpHandler signUpHandler;
+    private HttpHandler verifyOldPasswordHandler;
+    private HttpHandler changePasswordHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_change_password);
+        showOldPassword = getIntent().getExtras().getBoolean("ShowOldPassword", true);
+        index = getIntent().getExtras().getString("Index");
         init();
     }
 
     private void init() {
         initToolbar();
 
-        etUsername = (EditText) findViewById(R.id.et_username);
-        etEmail = (EditText) findViewById(R.id.et_email);
+        etOldPassword = (EditText) findViewById(R.id.et_old_password);
+        if (showOldPassword)
+            etOldPassword.setVisibility(View.VISIBLE);
+        else
+            etOldPassword.setVisibility(View.GONE);
         etPassword = (EditText) findViewById(R.id.et_password);
-        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
-        btnSignUp.setOnClickListener(this);
+        btnSubmit = (Button) findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(this);
     }
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.sign_up_new_account);
+        actionBar.setTitle(R.string.title_activity_change_password);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
@@ -73,43 +82,79 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_sign_up:
-                if (verifyInfo())
+            case R.id.btn_submit:
+                if (verifyPassword())
                     showInfoDialog();
                 break;
         }
     }
 
-    private boolean verifyInfo() {
+    private boolean verifyPassword() {
         boolean flag = true;
-        String username = etUsername.getText().toString();
-        if (username == null || "".equals(username)) {
-            etUsername.setError(getString(R.string.username_is_required));
-            flag = false;
+        if (showOldPassword) {
+            String oldPassword = etOldPassword.getText().toString();
+            if (oldPassword == null || "".equals(oldPassword)) {
+                etOldPassword.setError(getString(R.string.password_is_required));
+                flag = false;
+            }
         }
-
-        String email = etEmail.getText().toString();
-        if (email == null || "".equals(email)) {
-            etEmail.setError(getString(R.string.email_is_required));
-            flag = false;
-        }else if(!etEmail.getText().toString().matches("^(\\w+[@]\\w+[.]\\w+)$")){
-            etEmail.setError("email error");
-            flag = false;
-        }
-
         String password = etPassword.getText().toString();
         if (password == null || "".equals(password)) {
             etPassword.setError(getString(R.string.password_is_required));
             flag = false;
         }
-
         return flag;
+    }
+
+    private void verifyOldPassword() {
+        showProgressDialog();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("index", index);
+        params.addBodyParameter("password", etOldPassword.getText().toString());
+
+        HttpUtils http = new HttpUtils();
+        verifyOldPasswordHandler = http.send(HttpRequest.HttpMethod.POST,
+                getString(R.string.host) + "verifyPassword",
+                params,
+                new RequestCallBack<String>() {
+
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<String> responseInfo) {
+                        String result = responseInfo.result;
+                        if ("".equals(result))
+                            return;
+                        JSONObject object = JSON.parseObject(result);
+                        int messageCode = object.getIntValue(HttpResultCode.MESSAGE_CODE);
+                        if (messageCode == HttpResultCode.SUCCESS) {
+                            changePassword();
+                        } else {
+                            cancelProgressDialog();
+                            etOldPassword.setError(getString(R.string.verify_password_is_error));
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        showToast(R.string.service_connection_error);
+                    }
+
+                });
     }
 
     private void showInfoDialog() {
@@ -117,26 +162,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                signUp();
+                if (showOldPassword)
+                    verifyOldPassword();
+                else
+                    changePassword();
             }
         });
     }
 
-    private void signUp() {
+    private void changePassword() {
         showProgressDialog();
 
-
-        String username = etUsername.getText().toString();
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-        User user = new User(username, password, email);
-
         RequestParams params = new RequestParams();
-        params.addBodyParameter("userInfo", JSON.toJSONString(user));
+        params.addBodyParameter("index", index);
+        params.addBodyParameter("password", etPassword.getText().toString());
 
         HttpUtils http = new HttpUtils();
-        signUpHandler = http.send(HttpRequest.HttpMethod.POST,
-                getString(R.string.host) + "signUp",
+        changePasswordHandler = http.send(HttpRequest.HttpMethod.POST,
+                getString(R.string.host) + "changePassword",
                 params,
                 new RequestCallBack<String>() {
 
@@ -154,14 +197,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         String result = responseInfo.result;
                         if ("".equals(result))
                             return;
-                        com.alibaba.fastjson.JSONObject object = JSON.parseObject(result);
+                        JSONObject object = JSON.parseObject(result);
                         int messageCode = object.getIntValue(HttpResultCode.MESSAGE_CODE);
                         if (messageCode == HttpResultCode.SUCCESS) {
-                            showToast(R.string.sign_up_success);
+                            showToast(R.string.change_password_success);
                             finish();
                         } else {
-                            showToast(R.string.sign_up_failed);
+                            showToast(R.string.change_password_failed);
                         }
+
                     }
 
                     @Override
@@ -170,7 +214,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         showToast(R.string.service_connection_error);
                     }
 
-                });
+                }
+
+        );
     }
 
     private void showToast(String message) {
@@ -200,8 +246,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStop() {
         super.onStop();
-        if (signUpHandler != null)
-            signUpHandler.cancel();
+        if (verifyOldPasswordHandler != null)
+            verifyOldPasswordHandler.cancel();
+        if (changePasswordHandler != null)
+            changePasswordHandler.cancel();
         cancelProgressDialog();
     }
 

@@ -31,18 +31,7 @@
     <string name="username_digits">abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ_</string>
     <string name="verification_code_digits">1234567890</string>
 
-    <array name="verification_code_digits">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-    </array>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_baidu_maps">BaiduMapsActivity</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
 </resources>

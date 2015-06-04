@@ -10,19 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ericyl.themedemo.R;
 import com.ericyl.themedemo.model.User;
-import com.ericyl.themedemo.ui.widget.MyEditText;
-import com.ericyl.themedemo.util.AppProperties;
+import com.ericyl.themedemo.util.AppPerference;
 import com.ericyl.themedemo.util.DialogUtils;
+import com.ericyl.themedemo.util.HttpResultCode;
 import com.ericyl.themedemo.util.PhoneUtils;
 import com.ericyl.themedemo.util.Settings;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -36,14 +37,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Toolbar toolbar;
 
-    private MyEditText etUserName;
-    private MyEditText etPassword;
+    private EditText etUserName;
+    private EditText etPassword;
     private CheckBox cbRemeberUsername;
     private Button btnSubmit;
     private Button btnForgotPassword;
     private Button btnSignUp;
     private View layoutWaitingLogin;
     private Dialog networkDialog;
+
+    private boolean isRemember = false;
 
     private boolean isLogin = true;
     private HttpHandler loginHandler;
@@ -84,9 +87,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initToolbar();
         initData();
 
-        etUserName = (MyEditText) findViewById(R.id.et_username);
-        etPassword = (MyEditText) findViewById(R.id.et_password);
+        etUserName = (EditText) findViewById(R.id.et_username);
+        etPassword = (EditText) findViewById(R.id.et_password);
         cbRemeberUsername = (CheckBox) findViewById(R.id.cb_remeber_username);
+        cbRemeberUsername
+                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,
+                                                 boolean isChecked) {
+                        // TODO Auto-generated method stub
+                        isRemember = isChecked;
+                    }
+                });
+        getRememberUsername();
         btnSubmit = (Button) findViewById(R.id.btn_submit);
         if (isLogin)
             btnSubmit.setText(R.string.login);
@@ -114,6 +128,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (pattern != null)
             jumpLockPatternActivity(pattern);
 
+    }
+
+    private void getRememberUsername() {
+        AppPerference appPerference = AppPerference.Read();
+        boolean isOldRemember = appPerference.isRememberUsername();
+        String username = appPerference.getUsername();
+        if (isOldRemember) {
+            etUserName.setText(username);
+            cbRemeberUsername.setChecked(isOldRemember);
+        }
     }
 
     private void jumpLockPatternActivity(char[] pattern) {
@@ -176,28 +200,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_submit:
-//                if(isLogin) {
-//                    boolean flag = true;
-//                    String username = etUserName.getText().toString();
-//                    String password = etPassword.getText().toString();
-//                    if (username == null || "".equals(username)) {
-//                        etUserName.setError(getString(R.string.username_is_required));
-//                        flag = false;
-//                    }
-//                    if (password == null || "".equals(password)) {
-//                        etPassword.setError(getString(R.string.password_is_required));
-//                        flag = false;
-//                    }
-//                    if (flag)
-//                        login(username, password);
-//                }else{
-//                    loginCancel();
-//                }
-                if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(AppProperties.getContext()) == ConnectionResult.SUCCESS)
-                    intent.setClass(this, GoogleMapsActivity.class);
-                else
-                    intent.setClass(this, AutonaviMapsActivity.class);
-                startActivity(intent);
+                if (isLogin) {
+                    boolean flag = true;
+                    String username = etUserName.getText().toString();
+                    String password = etPassword.getText().toString();
+                    if (username == null || "".equals(username)) {
+                        etUserName.setError(getString(R.string.username_is_required));
+                        flag = false;
+                    }
+                    if (password == null || "".equals(password)) {
+                        etPassword.setError(getString(R.string.password_is_required));
+                        flag = false;
+                    }
+                    if (flag)
+                        login(username, password);
+                } else {
+                    loginCancel();
+                }
                 break;
             case R.id.btn_forgot_password:
                 intent.setClass(this, ForgotPasswordActivity.class);
@@ -239,30 +258,52 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onSuccess(ResponseInfo<String> responseInfo) {
                         loginCancel();
                         String result = responseInfo.result;
-                        User user = null;
-                        if (!"".equals(result))
-                            user = JSON.parseObject(result, User.class);
-                        if (user == null)
-                            Toast.makeText(LoginActivity.this, R.string.username_or_password_incorrect, Toast.LENGTH_SHORT).show();
-                        else
-                            jumpMainActivity(user);
+                        if ("".equals(result))
+                            return;
+                        JSONObject object = JSON.parseObject(result);
+                        int messageCode = object.getIntValue(HttpResultCode.MESSAGE_CODE);
+                        if (messageCode != HttpResultCode.SUCCESS) {
+                            showToast(R.string.username_or_password_incorrect);
+                        } else {
+                            rememberUsername();
+                            jumpMainActivity(object.getIntValue("userIndex"));
+                        }
                     }
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
                         loginCancel();
-                        Toast.makeText(LoginActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                        showToast(R.string.service_connection_error);
                     }
 
                 });
     }
 
-    private void jumpMainActivity(User user) {
+    private void rememberUsername() {
+        if (isRemember) {
+            AppPerference appPerference = new AppPerference(
+                    etUserName.getText().toString(), isRemember);
+            AppPerference.Write(appPerference);
+        } else {
+            AppPerference appPerference = new AppPerference(null, isRemember);
+            AppPerference.Write(appPerference);
+        }
+    }
+
+    private void jumpMainActivity(int userIndex) {
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
-        intent.putExtra(User.KEY_NAME, user);
+        intent.putExtra(User.KEY_NAME, userIndex);
         startActivity(intent);
         finish();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showToast(int messageId) {
+        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
